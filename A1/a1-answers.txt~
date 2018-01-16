@@ -1,0 +1,84 @@
+﻿#Name : Chuan Yang
+#ID :   1421992
+#Section : LEC B1
+#Lab Section : LAB H03
+
+
+Part1
+
+Question:
+
+1. It's Pseudo Instruction.
+   Machine Instruction:  
+   lui $1, 4097  [Num1]
+   lb  $8, 0($1) [Num1]
+
+2. 26
+   add   $t3, $t0, $t1  --->   t3 = t0 + t1 = (0x06 + 0x0c) = 0x14  Hex
+   add   $t3, $t2, $t3  --->   t3 = t2 + t3 = (0x14 + 0x14) = 0x26  Hex
+   So, we get 26 at register $t3 after “add   $t3, $t2, $t3”.
+
+3. 3c  ---->  “<”
+
+4. 0x10010004
+
+5. It will show ”Attempt to execute non-instruction” at 0x00400050.
+   Reason: v0 and a0 are all about the subroutine, and the value after $v0 will 
+   	     represent a certain order which need “syscall” to use and run it. So,
+	     if we don't have “syscall”, we can't run the instruction correctly.
+
+
+
+Part2
+
+Question:
+
+1. Error : message: .ascii   "optimal solution="
+	     extra:   .asciiz  "this is not part of the solution"
+
+   Fix   : message: .asciiz   "optimal solution="
+	     extra:   .ascii  "this is not part of the solution"
+
+   Reason: the system call code “ $v0, 4 “ means it will pointer to a 
+           null-terminated string, but message is “.ascii” which is a 
+	     terminated string, so we just need to change it to the null-
+	     terminated string.
+
+
+Part3 
+
+Question:
+
+1. Error : buffer: .space 30
+	     It shows “Exception [Address error in store]  occurred and ignored”
+	     after input of “-10”.
+   Fix   : buffer: .space 32
+	     
+
+
+2. 0x10010020  ----> It's because “.space 32” means it will have 32 byte before 
+                     the store address of “-10”. So, it will be 
+		         (0x10010000 + 32(decimal)) = 0x10010000 + 0X00000020
+			                              = 0x10010020  
+   0xfffffff6  ----> 10(Decimal) = 1010(Binary)  -> -10 = (2's compl) 1....10110
+								     = 0xfffffff6
+
+3. 0x10010000 
+
+
+
+
+Part4
+
+Question:
+
+
+Error: 1. It doesn't have the part to deal with the numbers 0~9,
+	 2. For the atof(the part that we use to transfer the 'A'~'F'), it minus 0x31
+	    (which is the wrong number).
+
+Fix  : 1. Add one line “sub   $t2, $t0, 0x30” into the main before “b done”,
+	 2. Change the line “sub   $t2, $t0, 0x31” to “sub   $t2, $t0, 0x37”.
+       See “a1-hex.s” for details.
+
+

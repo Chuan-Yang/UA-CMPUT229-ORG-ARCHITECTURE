@@ -1,0 +1,22 @@
+li  $t5, 0xffff0004		# get the information from the keyboard	  		lb  $t6, 0($t5)
+	
+	li  $t5, 0xffff000c		# debug
+	sw  $t6, 0($t)
+
+	lw  $t2, added			# t2 = added
+	bnez $t2, lab4_handler_ret
+
+	lb  $t7, i	
+	beq $t6, $t7, add_string	# if t1 = i
+	
+	lb  $t7, d
+	beq $t6, $t7, add_string	# if t1 = d
+
+	lb  $t7, r
+	beq $t6, $t7, add_string	# if t1 = r
+
+	lb  $t7, l
+	beq $t6, $t7, add_string	# if t1 = l
+
+	lb  $t7, q
+	beq $t6, $t7, exit		# if t1 = q
